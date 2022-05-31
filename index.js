@@ -7,7 +7,7 @@ import crc from "crc";
 //https://v1993.github.io/cemuhook-protocol/
 
 const serverID = 0 + Math.floor(Math.random() * 4294967295);
-console.log(`serverID: ${serverID}`);
+console.log(`Server Started`);
 
 let packetNumber = 0;
 
@@ -88,9 +88,7 @@ udpServer.on("message", (data, rinfo) => {
     let clientId = data.readUInt32LE(index); index += 4;
     let msgType = data.readUInt32LE(index); index += 4;
 
-    if (msgType == MessageType.DSUC_VersionReq) {
-        console.log("Version request ignored.");
-    } else if (msgType == MessageType.DSUC_ListPorts) {
+    if (msgType == MessageType.DSUC_ListPorts) {
         let numOfPadRequests = data.readInt32LE(index); index += 4;
         for (let i = 0; i < numOfPadRequests; i++) {
             let requestIndex = data[index + i];
@@ -231,19 +229,19 @@ const reportControllerData = (controllerData, controllerId) => {
 
 wss.on("connection", function connection(ws) {
     const controllerId = availableControllerIds.shift();
-    console.log(`Controller ${controllerId}: Connected`);
+    console.log(`Wiimote ${controllerId}: Connected`);
     ws.send(controllerId);
     ws.on("message", function incoming(message) {
         const data = JSON.parse(message);
         reportControllerData(data,controllerId);
     });
     ws.on("error", () => {
-        console.log(`Controller ${controllerId}: ERROR`);
+        console.log(`Wiimote ${controllerId}: ERROR`);
     });
     ws.on("close", () => {
         availableControllerIds.push(controllerId);
         availableControllerIds.sort();
-        console.log(`Controller ${controllerId}: Disconnected`);
+        console.log(`Wiimote ${controllerId}: Disconnected`);
     });
 });
 

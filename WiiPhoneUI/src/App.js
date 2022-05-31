@@ -93,8 +93,8 @@ export default function App() {
         <div className="App">
             <div className="infoWrapper">
                 <div>Connected: {connected.toString()}, Motion Enabled: {motionEnabled.toString()}</div>
-                <div>Controller Port: {controllerId.toString()}</div>
-                <button onClick={askForPermission}>Ask For Permission</button>
+                <div>Controller Slot: {controllerId.toString()}</div>
+                <button onClick={askForPermission}>Give Motion Control Permission</button>
             </div>
             <div className="controllerWrapper">
                 <div className="controllerRowWrapper">
