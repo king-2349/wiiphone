@@ -1,0 +1,49 @@
+html, body, #root {
+    height: 100%;
+}
+
+.App {
+    user-select: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.infoWrapper {
+    flex: 0 0 auto;
+}
+
+.controllerWrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    padding-bottom: 1rem;
+}
+
+.controllerRowWrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: .25rem 0rem;
+}
+
+.controllerButton {
+    flex: 0 0 auto;
+    margin: 0rem .5rem;
+    border: 2px solid black;
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.controllerButtonActive {
+    background-color: grey;
+}
+
+.controllerButtonRound {
+    border-radius: 100px;
+}

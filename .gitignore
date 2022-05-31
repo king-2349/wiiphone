@@ -1,0 +1,21 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+WiiPhoneUI/node_modules
+WiiPhoneUI/.pnp
+WiiPhoneUI/.pnp.js
+
+# testing
+WiiPhoneUI/coverage
+
+# misc
+WiiPhoneUI/.DS_Store
+WiiPhoneUI/.env.local
+WiiPhoneUI/.env.development.local
+WiiPhoneUI/.env.test.local
+WiiPhoneUI/.env.production.local
+
+WiiPhoneUI/npm-debug.log*
+WiiPhoneUI/yarn-debug.log*
+WiiPhoneUI/yarn-error.log*
