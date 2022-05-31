@@ -1,4 +1,6 @@
 # Wii Phone
+This app allows you to use your phone as a wii remote on Dolphin. This includes all the buttons of a normal wii remote and motions controls.
+I have tested this on wii sports and mario kart wii, and it seems to work correctly. 
 
 ## Server Setup Instructions
 1. Install node
