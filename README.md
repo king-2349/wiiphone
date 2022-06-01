@@ -5,7 +5,7 @@ I have tested this on wii sports and mario kart wii with and iPhone, and it seem
 ![wiiphonescreenshot](https://user-images.githubusercontent.com/38045031/171303444-a2b0d06c-d526-443f-92af-b6d960ee3e4d.jpg)
 
 ## Server Setup Instructions
-1. Install node
+1. Install node (https://nodejs.org/en/download/)
 2. Download the repository and extract the zip file to wherever you want (https://github.com/king-2349/wiiphone/archive/refs/heads/main.zip)
 3. Once node is installed, open a command prompt in the folder you extracted the project to and run "npm install"
 4. Once npm install is done, run the command "npm run start" to start the server
