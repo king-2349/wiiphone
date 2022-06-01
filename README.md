@@ -9,7 +9,7 @@ I have tested this on wii sports and mario kart wii with and iPhone, and it seem
 2. Download the repository and extract the zip file to wherever you want (https://github.com/king-2349/wiiphone/archive/refs/heads/main.zip)
 3. Once node is installed, open a command prompt in the folder you extracted the project to and run "npm install"
 4. Once npm install is done, run the command "npm run start" to start the server
-5. You can then go to https://{Your computers local ip address}:3000 on your phone to open the wii remote ui. You will see a warning since the https certificate is self signed. Your browser will allow you to bypass this (Ex. For chrome, click on Advanced -> Proceed to 10.0.0.141)
+5. You can then go to https://{Your computers local ip address}:3000 (The server should tell you what address to use) on your phone to open the wii remote ui. You will see a warning since the https certificate is self signed. Your browser will allow you to bypass this (Ex. For chrome, click on Advanced -> Proceed to 10.0.0.141)
 6. Press the "Give Motion Control Permission" button to get motion controls to work (At this moment you actually need to give permission for any of it to work. I will post a fix for this later in case someone wants to use it just for the buttons). The UI will say "Motion Enabled: true" when the motion controls are working
 6. If everything is working correctly the command prompt should say a remote has been connected and the ui will say "Connected: true"
 
