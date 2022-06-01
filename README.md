@@ -19,4 +19,4 @@ I have tested this on wii sports and mario kart wii, and it seems to work correc
 4. The IP Address will be 127.0.0.1 and the port will be 26760. You can set the description to whatever you want
 5. If this server is running and there is a connected "wii remote" you should see a DSUClient/{SlotNumber}/{InputSourceDescription} in the device drop down
 6. Select the DSUClient whose SlotNumber corresponds to the Controller Slot on the UI
-7. You should now be able to set the buttons by clicking the button you want to set on Dolphin and tapping a button on the UI on your phone (The button names on the UI will not match to the same name on Dolphin. Behind the scenes, each button on the UI is mapped to a Playstation controller button)
+7. You should now be able to set the buttons by clicking the button you want to set on Dolphin and tapping a button on the UI on your phone (The button names on the UI will not match to the same name on Dolphin. Behind the scenes, each button on the UI is mapped to a Playstation controller button. Also the "Center" button on the ui is an extra button that can be used for the Recenter action on the Motion Input tab)
