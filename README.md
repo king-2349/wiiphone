@@ -22,3 +22,6 @@ I have tested this on wii sports and mario kart wii with and iPhone, and it seem
 5. If this server is running and there is a connected "wii remote" you should see a DSUClient/{SlotNumber}/{InputSourceDescription} in the device drop down
 6. Select the DSUClient whose SlotNumber corresponds to the Controller Slot on the UI
 7. You should now be able to set the buttons by clicking the button you want to set on Dolphin and tapping a button on the UI on your phone (The button names on the UI will not match to the same name on Dolphin. Behind the scenes, each button on the UI is mapped to a Playstation controller button. Also the "Center" button on the ui is an extra button that can be used for the Recenter action on the Motion Input tab)
+
+## Credit
+I used this project as a reference when creating this one: https://github.com/hjmmc/WebGyroForCemuhook

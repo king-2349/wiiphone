@@ -228,6 +228,10 @@ const reportControllerData = (controllerData, controllerId) => {
 }
 
 wss.on("connection", function connection(ws) {
+    if(availableControllerIds.length === 0) {
+        console.log("4 Wiimotes already connected");
+        return;
+    }
     const controllerId = availableControllerIds.shift();
     console.log(`Wiimote ${controllerId}: Connected`);
     ws.send(controllerId);
