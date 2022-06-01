@@ -6,7 +6,7 @@ I have tested this on wii sports and mario kart wii, and it seems to work correc
 
 ## Server Setup Instructions
 1. Install node
-2. Download the repository and extract the zip file to wherever you want (Click the Code button and "Download ZIP" on the repo page)
+2. Download the repository and extract the zip file to wherever you want (https://github.com/king-2349/wiiphone/archive/refs/heads/main.zip)
 3. Once node is installed, open a command prompt in the folder you extracted the project to and run "npm install"
 4. Once npm install is done, run the command "npm run start" to start the server
 5. You can then go to https://10.0.0.141:3000 on your phone to open the wii remote ui. You will see a warning since the https certificate is self signed. Your browser will allow you to bypass this (Ex. For chrome, click on Advanced -> Proceed to 10.0.0.141)
