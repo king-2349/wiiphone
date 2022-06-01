@@ -32,8 +32,11 @@ export default function App() {
     const rotationWeight = 1;
 
     const askForPermission = () => {
-        if (DeviceMotionEvent != null && DeviceMotionEvent.requestPermission != null && typeof DeviceMotionEvent.requestPermission === "function") {
-            DeviceMotionEvent.requestPermission().then(permissionState => {
+        if (DeviceMotionEvent != null) {
+            const permission = DeviceMotionEvent.requestPermission != null && typeof DeviceMotionEvent.requestPermission === "function" ?
+                DeviceMotionEvent.requestPermission() :
+                new Promise(res => res("granted"));
+            permission.then(permissionState => {
                 if (permissionState === "granted") {
                     setMotionEnabled(true);
                     window.addEventListener("devicemotion", event => {
