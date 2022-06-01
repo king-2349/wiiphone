@@ -3,11 +3,23 @@ import fs from "fs";
 import { WebSocketServer } from "ws";
 import dgram from "dgram";
 import crc from "crc";
+import os from "os";
 
 //https://v1993.github.io/cemuhook-protocol/
 
 const serverID = 0 + Math.floor(Math.random() * 4294967295);
 console.log(`Server Started`);
+
+const interfaces = os.networkInterfaces();
+let localIPAddress = "Unknown.Sorry";
+for(let interfaceType in interfaces) {
+    interfaces[interfaceType].forEach(address => {
+        if(address.family === "IPv4" && address.address !== "127.0.0.1") {
+            localIPAddress = address.address;
+        }
+    })
+}
+console.log(`Go to https://${localIPAddress}:3000 to access the Wiimote UI`);
 
 let packetNumber = 0;
 
