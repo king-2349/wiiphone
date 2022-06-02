@@ -3,15 +3,12 @@ import ControllerButton from "./ControllerButton";
 import "./style.css";
 
 export default function App() {
-    const [motionEvent, setMotionEvent] = useState({
-        acceleration: { x: 0, y: 0, z: 0 },
-        rotation: { alpha: 0, beta: 0, gamma: 0 }
-    });
     const [controllerData, setControllerData] = useState({
         timestamp: Date.now(),
         Recenter: 0,
         A: 0,
         B: 0,
+        AB: 0,
         One: 0,
         Two: 0,
         Minus: 0,
@@ -31,7 +28,7 @@ export default function App() {
     const motionWeight = 1;
     const rotationWeight = 1;
 
-    const askForPermission = () => {
+    function askForPermission() {
         if (DeviceMotionEvent != null) {
             const permission = DeviceMotionEvent.requestPermission != null && typeof DeviceMotionEvent.requestPermission === "function" ?
                 DeviceMotionEvent.requestPermission() :
@@ -40,17 +37,19 @@ export default function App() {
                 if (permissionState === "granted") {
                     setMotionEnabled(true);
                     window.addEventListener("devicemotion", event => {
-                        setMotionEvent((currentMotionEvent) => {
+                        setControllerData((currentControllerData) => {
                             return {
+                                ...currentControllerData,
+                                timestamp: Date.now(),
                                 acceleration: { 
-                                    x: ((1 - motionWeight) * currentMotionEvent.acceleration.x + motionWeight * event.accelerationIncludingGravity.x) / 9.8, 
-                                    y: ((1 - motionWeight) * currentMotionEvent.acceleration.z + motionWeight * event.accelerationIncludingGravity.z) / 9.8, 
-                                    z: -((1 - motionWeight) * currentMotionEvent.acceleration.y + motionWeight * event.accelerationIncludingGravity.y) / 9.8
+                                    x: ((1 - motionWeight) * currentControllerData.acceleration.x + motionWeight * event.accelerationIncludingGravity.x) / 9.8, 
+                                    y: ((1 - motionWeight) * currentControllerData.acceleration.z + motionWeight * event.accelerationIncludingGravity.z) / 9.8, 
+                                    z: -((1 - motionWeight) * currentControllerData.acceleration.y + motionWeight * event.accelerationIncludingGravity.y) / 9.8
                                 },
                                 rotation: {
-                                    alpha: ((1-rotationWeight) * currentMotionEvent.rotation.alpha + rotationWeight * event.rotationRate.alpha),
-                                    beta: -((1-rotationWeight) * currentMotionEvent.rotation.gamma + rotationWeight * event.rotationRate.gamma),
-                                    gamma: ((1-rotationWeight) * currentMotionEvent.rotation.beta + rotationWeight * event.rotationRate.beta)
+                                    alpha: ((1-rotationWeight) * currentControllerData.rotation.alpha + rotationWeight * event.rotationRate.alpha),
+                                    beta: -((1-rotationWeight) * currentControllerData.rotation.gamma + rotationWeight * event.rotationRate.gamma),
+                                    gamma: ((1-rotationWeight) * currentControllerData.rotation.beta + rotationWeight * event.rotationRate.beta)
                                 }
                             }
                         });
@@ -61,8 +60,6 @@ export default function App() {
     }
 
     useEffect(() => {
-        document.body.style.overflow = "hidden";
-
         const bar = window.location.href;
         const wsAddress = `wss://${bar.match(/^https?:\/\/([^:]+).+$/)[1]}:1338`;
         const newWebSocket = new WebSocket(wsAddress);
@@ -76,20 +73,21 @@ export default function App() {
     }, [])
 
     useEffect(() => {
-        setControllerData((currentControllerData) => {
-            currentControllerData.timestamp = Date.now();
-            currentControllerData.acceleration = motionEvent.acceleration;
-            currentControllerData.rotation = motionEvent.rotation;
+        function sendControllerData() {
             if (connected) {
-                webSocket.send(JSON.stringify(currentControllerData));
+                webSocket.send(JSON.stringify(controllerData));
             }
-            return { ...currentControllerData }
-        });
-    }, [motionEvent, webSocket, connected])
+        }
+        sendControllerData();
+        //Don't stop sending controller data just because nothing changes
+        const interval = setInterval(() => {
+            sendControllerData();
+        },16)
+        return () => clearInterval(interval);
+    }, [controllerData, webSocket, connected]);
 
-    const setButtonData = (key, value) => {
-        controllerData[key] = value;
-        setControllerData({ ...controllerData });
+    function setButtonData(key, value) {
+        setControllerData((currentControllerData) => { return { ...currentControllerData, [key]: value }});
     }
 
     return (
@@ -101,9 +99,6 @@ export default function App() {
             </div>
             <div className="controllerWrapper">
                 <div className="controllerRowWrapper">
-                    <ControllerButton buttonDisplay="Center" pressed={controllerData.Recenter === 1} buttonPressed={() => { setButtonData("Recenter", 1) }} buttonReleased={() => { setButtonData("Recenter", 0) }} />
-                </div>
-                <div className="controllerRowWrapper">
                     <ControllerButton buttonDisplay="^" pressed={controllerData.Up === 1} buttonPressed={() => { setButtonData("Up", 1) }} buttonReleased={() => { setButtonData("Up", 0) }} />
                 </div>
                 <div className="controllerRowWrapper">
@@ -114,8 +109,12 @@ export default function App() {
                     <ControllerButton buttonDisplay="v" pressed={controllerData.Down === 1} buttonPressed={() => { setButtonData("Down", 1) }} buttonReleased={() => { setButtonData("Down", 0) }} />
                 </div>
                 <div className="controllerRowWrapper">
-                    <ControllerButton round buttonDisplay="A" pressed={controllerData.A === 1} buttonPressed={() => { setButtonData("A", 1) }} buttonReleased={() => { setButtonData("A", 0) }} />
-                    <ControllerButton buttonDisplay="B" pressed={controllerData.B === 1} buttonPressed={() => { setButtonData("B", 1) }} buttonReleased={() => { setButtonData("B", 0) }} />
+                    <ControllerButton round buttonDisplay="A" pressed={controllerData.A === 1 || controllerData.AB === 1} buttonPressed={() => { setButtonData("A", 1) }} buttonReleased={() => { setButtonData("A", 0) }} />
+                    <ControllerButton buttonDisplay="B" pressed={controllerData.B === 1 || controllerData.AB === 1} buttonPressed={() => { setButtonData("B", 1) }} buttonReleased={() => { setButtonData("B", 0) }} />
+                </div>
+                <div className="controllerRowWrapper">
+                    <ControllerButton buttonDisplay="Center" pressed={controllerData.Recenter === 1} buttonPressed={() => { setButtonData("Recenter", 1) }} buttonReleased={() => { setButtonData("Recenter", 0) }} />
+                    <ControllerButton buttonDisplay="A/B" pressed={controllerData.AB === 1 || (controllerData.A === 1 && controllerData.B === 1)} buttonPressed={() => { setButtonData("AB", 1) }} buttonReleased={() => { setButtonData("AB", 0) }} />
                 </div>
                 <div className="controllerRowWrapper">
                     <ControllerButton round buttonDisplay="-" pressed={controllerData.Minus === 1} buttonPressed={() => { setButtonData("Minus", 1) }} buttonReleased={() => { setButtonData("Minus", 0) }} />

@@ -170,8 +170,8 @@ const reportControllerData = (controllerData, controllerId) => {
     const button2Mask =
         (controllerData.One !== 0 ? 0x01 : 0x00) << 7 |
         (controllerData.Two !== 0 ? 0x01 : 0x00) << 6 |
-        (controllerData.A !== 0 ? 0x01 : 0x00) << 5 |
-        (controllerData.B !== 0 ? 0x01 : 0x00) << 4;
+        (controllerData.A !== 0 || controllerData.AB !== 0 ? 0x01 : 0x00) << 5 |
+        (controllerData.B !== 0 || controllerData.AB !== 0 ? 0x01 : 0x00) << 4;
 
     outBuffer.writeUInt8(button1Mask, outIndex);
     outBuffer.writeUInt8(button2Mask, ++outIndex);
@@ -188,8 +188,8 @@ const reportControllerData = (controllerData, controllerId) => {
     outBuffer[++outIndex] = controllerData.Right !== 0 ? 0xFF : 0x00; // dpad right
     outBuffer[++outIndex] = controllerData.Up !== 0 ? 0xFF : 0x00; // dpad up
 
-    outBuffer[++outIndex] = controllerData.B !== 0 ? 0xFF : 0x00; // square
-    outBuffer[++outIndex] = controllerData.A !== 0 ? 0xFF : 0x00; //cross
+    outBuffer[++outIndex] = controllerData.B !== 0 || controllerData.AB !== 0  ? 0xFF : 0x00; // square
+    outBuffer[++outIndex] = controllerData.A !== 0 || controllerData.AB !== 0 ? 0xFF : 0x00; //cross
     outBuffer[++outIndex] = controllerData.Two !== 0 ? 0xFF : 0x00; // circle
     outBuffer[++outIndex] = controllerData.One !== 0 ? 0xFF : 0x00; // triange
 
